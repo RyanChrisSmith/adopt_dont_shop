@@ -48,4 +48,23 @@ RSpec.describe 'Admin application show page' do
     expect(current_path).to eq("/admin/applications/#{@application.id}")
     expect(page).to have_content('Rejected')
   end
+
+  it 'wont affect other applications when approved or denied' do
+    visit "/admin/applications/#{@application.id}"
+
+    within "#pets-#{@pet_3.id}" do
+      click_button('Reject application')
+    end
+
+    visit "/admin/applications/#{@application_2.id}"
+
+    within "#pets-#{@pet_2.id}" do
+      expect(page).to have_button("Approve application")
+      expect(page).to have_button("Reject application")
+    end
+    within "#pets-#{@pet_3.id}" do
+      expect(page).to have_button("Approve application")
+      expect(page).to have_button("Reject application")
+    end
+  end
 end
