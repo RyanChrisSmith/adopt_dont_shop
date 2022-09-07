@@ -77,6 +77,13 @@ RSpec.describe("Admin application show page") do
         click_button("Approve application")
         expect(page).to(have_content(("Approved")))
       end
+
+      within("#pets-#{@pet_3.id}") do
+        click_button("Approve application")
+      end
+
+      expect(page).to(have_content(("Approved")))
+      expect(page).to_not(have_content("Pending"))
     end
   end
 
@@ -85,9 +92,15 @@ RSpec.describe("Admin application show page") do
       visit("/admin/applications/#{@application.id}")
 
       within("#pets-#{@pet_1.id}") do
-        click_button("Approve application")
-        expect(page).to(have_content(("Rejected")))
+        click_button("Reject application")
       end
+
+      within("#pets-#{@pet_3.id}") do
+        click_button("Reject application")
+      end
+
+      expect(page).to(have_content(("Rejected")))
+      expect(page).to_not(have_content("Pending"))
     end
   end
 
@@ -97,7 +110,8 @@ RSpec.describe("Admin application show page") do
 
       within("#pets-#{@pet_1.id}") do
         click_button("Approve application")
-        expect(page).to(have_content(("Rejected")))
+        expect(page).to(have_content(("Approved")))
+        visit("/pets/#{pet.id}")
       end
     end
   end
