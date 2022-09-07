@@ -103,18 +103,4 @@ RSpec.describe("Admin application show page") do
       expect(page).to_not(have_content("Pending"))
     end
   end
-
-  describe("story 18") do
-    it("visit admin show page/Approve all pets on app/then Visit Pets show page & see those pets are not longer adoptable") do
-      visit("/admin/applications/#{@application.id}")
-
-      within("#pets-#{@pet_1.id}") do
-        click_button("Approve application")
-      end
-
-      visit("/pets/#{@pet_1.id}")
-      expect(page).to(have_content(false))
-      expect(page).to_not(have_content(true))
-    end
-  end
 end
